@@ -81,8 +81,16 @@ const uploadData = (data) => {
   });
 }
 
+const getLastUpdate = () => {
+  const date = new Date();
+  return `${date.toLocaleTimeString()} ${date.toLocaleDateString()}`;
+}
+
 
 parseData().then(data => {
+  data.options = {
+    last_update: getLastUpdate()
+  };
   uploadData(data);
 }).catch(err => {
   console.error(err);

@@ -53,3 +53,8 @@ function getTickerAveragePrice(ticker) {
 
     return 0;
 }
+
+function getLastUpdateTime() {
+    const JSON = httpGetJSON(STOCKS_JSON);
+    return JSON.options.last_update;
+}
