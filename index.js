@@ -9,7 +9,7 @@ const FTP_USER = process.env.FTP_USER;
 const FTP_PASSWORD = process.env.FTP_PASSWORD;
 const FTP_HOST = '217.174.105.4';
 const FTP_PORT = 21;
-const FTP_OUTPUT_FILE_PATH = 'www/khovalkin.com/1/stocks2';
+const FTP_OUTPUT_FILE_PATH = 'www/khovalkin.com/1/stocks';
 
 const api = new tinkoff_v2({
   isDebug: false,
