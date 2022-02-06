@@ -83,7 +83,7 @@ const uploadData = (data) => {
 
 const getLastUpdate = () => {
   const date = new Date();
-  return `${date.toLocaleTimeString()} ${date.toLocaleDateString()}`;
+  return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
 }
 
 
