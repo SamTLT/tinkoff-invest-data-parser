@@ -53,3 +53,16 @@ function getTickerCurrentPrice(ticker) {
 
   return 0;
 }
+
+function getTickerExpectedYield(ticker) {
+  if (ticker) {
+    const JSON = httpGetJSON(STOCKS_JSON);
+
+    if (!JSON[ticker]) {
+      return 0;
+    }
+    return JSON[ticker].expected_yield.toString().replace(/\./g, ',');
+  }
+
+  return 0;
+}
