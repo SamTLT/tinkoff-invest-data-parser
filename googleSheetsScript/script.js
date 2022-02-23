@@ -34,7 +34,7 @@ function getTickerAveragePrice(ticker) {
 function getLastUpdateTime() {
   const JSON = httpGetJSON(STOCKS_JSON);
 
-  const date = new Date(JSON.options.last_update);
+  const date = new Date(JSON.options.last_update_timestamp);
   return `${date.toLocaleDateString('ru-RU')} ${date.toLocaleTimeString(
     'ru-RU'
   )}`;
