@@ -17,7 +17,8 @@ const addCache = async (fn, ms) => {
 
       return data;
     } catch (err) {
-      console.err('addCache: Failed to execute passed function');
+      console.error('addCache: Failed to execute passed function');
+      console.error(err);
     }
   }
 
