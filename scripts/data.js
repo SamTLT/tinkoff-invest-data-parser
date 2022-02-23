@@ -28,10 +28,11 @@ const processPosition = async (position) => {
       shareData = await api.Instruments.CurrencyBy(params);
     }
   } catch (err) {
+    console.error('processPosition: process failed');
     console.error(err);
   }
 
-  ticker = shareData.instrument.ticker;
+  ticker = shareData?.instrument?.ticker;
 
   return ticker;
 };
@@ -45,6 +46,9 @@ const parseData = async () => {
   
       for (const position of portfolio.positions) {
         const ticker = await processPosition(position);
+        if (!ticker) {
+          throw new Error('Failed to get ticker name');
+        }
         data[ticker] = position;
       }
     } catch (err) {
@@ -60,13 +64,6 @@ const parseData = async () => {
 };
 
 
-const getData = async () => {
-  return utils.addCache(parseData, 5000)
-    .catch((err) => {
-      console.error(err);
-
-      return err;
-    });
-};
+const getData = async () => utils.addCache(parseData, 5000);
 
 module.exports = { getData };
