@@ -1,12 +1,7 @@
-const getLastUpdateString = () => {
-  const date = new Date();
-  return `${date.toLocaleDateString('ru-RU')} ${date.toLocaleTimeString(
-    'ru-RU'
-  )}`;
-};
+const getLastUpdateTimestamp = () => new Date().getTime();
 
 const awaitTimeout = (ms) => {
-  return new Promise(function (resolve, reject) {
+  return new Promise(function (resolve) {
     setTimeout(function () {
       resolve('done!');
     }, ms);
@@ -52,4 +47,4 @@ const addCache = async (fn, ms) => {
   return cacheData;
 };
 
-module.exports = { getLastUpdateString, addCache };
+module.exports = { getLastUpdateTimestamp, addCache };

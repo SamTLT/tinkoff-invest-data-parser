@@ -57,7 +57,7 @@ const parseData = async () => {
     }
 
     data.options = {
-      last_update: utils.getLastUpdateString(),
+      last_update_timestamp: utils.getLastUpdateTimestamp(),
     };
   
     return data;
