@@ -1,6 +1,6 @@
 const getLastUpdateString = () => {
   const date = new Date();
-  return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+  return `${date.toLocaleDateString('ru-RU')} ${date.toLocaleTimeString('ru-RU')}`;
 };
 
 let cache;
@@ -19,6 +19,9 @@ const addCache = async (fn, ms) => {
     } catch (err) {
       console.error('addCache: Failed to execute passed function');
       console.error(err);
+      isCached = false;
+
+      throw new Error('addCache: Failed to execute passed function');
     }
   }
 
