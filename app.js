@@ -1,30 +1,32 @@
 require('dotenv').config();
-const data = require('./scripts/data');
 const http = require('http');
+const getData = require('./scripts/data');
 
 const PORT = process.env.PORT || 5000;
-const USER_TOKEN = process.env.USER_TOKEN;
+const { USER_TOKEN } = process.env;
 
 const server = http.createServer(async (req, res) => {
   if (req.url === '/stocks' && req.method === 'GET') {
     if (
       !req.headers.authorization ||
-      req.headers.authorization.indexOf('Bearer ' + USER_TOKEN) === -1
+      req.headers.authorization.indexOf(`Bearer ${USER_TOKEN}`) === -1
     ) {
       res.writeHead(401, { 'Content-Type': 'application/json' });
       res.write('Missing Authorization Header');
       res.end();
     } else {
-      data.getData().then(data => {
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.write(JSON.stringify(data));
-        res.end();
-      }).catch((err) => {
-        res.writeHead(500, { 'Content-Type': 'application/json' });
-        res.write(JSON.stringify(err));
-        res.end();
-      });
-
+      getData
+        .getData()
+        .then((result) => {
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.write(JSON.stringify(result));
+          res.end();
+        })
+        .catch((err) => {
+          res.writeHead(500, { 'Content-Type': 'application/json' });
+          res.write(JSON.stringify(err));
+          res.end();
+        });
     }
   } else {
     res.writeHead(404, { 'Content-Type': 'application/json' });
@@ -33,5 +35,6 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(PORT, () => {
+  // eslint-disable-next-line no-console
   console.log(`server started on port: ${PORT}`);
 });

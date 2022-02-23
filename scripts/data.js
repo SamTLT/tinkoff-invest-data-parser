@@ -1,11 +1,11 @@
-const tinkoff_v2 = require('./tinkoff_v2.js');
-const { getLastUpdateTimestamp } = require('./utils.js');
-const requestQueue = require('./request_queue.js');
+const TinkoffV2 = require('./tinkoff_v2');
+const { getLastUpdateTimestamp } = require('./utils');
+const requestQueue = require('./request_queue');
 
 const TOKEN = process.env.TINKOFF_INVEST_TOKEN;
 const ACCOUNT_ID = process.env.TINKOFF_INVEST_ACCOUNT_ID;
 
-const api = new tinkoff_v2({
+const api = new TinkoffV2({
   isDebug: false,
   token: TOKEN,
 });
@@ -33,38 +33,38 @@ const processPosition = async (position) => {
     console.error(err);
   }
 
-  ticker = shareData?.instrument?.ticker;
-
-  return ticker;
+  return shareData?.instrument?.ticker;
 };
 
 const parseData = async () => {
-    const data = {};
-    try {
-      const portfolio = await api.Operations.GetPortfolio({
-        account_id: ACCOUNT_ID,
-      });
-  
-      for (const position of portfolio.positions) {
-        const ticker = await processPosition(position);
-        if (!ticker) {
-          throw new Error('Failed to get ticker name');
-        }
-        data[ticker] = position;
-      }
-    } catch (err) {
-      console.error('Parse Data Failed');
-      throw err;
-    }
+  const data = {};
+  try {
+    const portfolio = await api.Operations.GetPortfolio({
+      account_id: ACCOUNT_ID,
+    });
 
-    data.options = {
-      last_update_timestamp: getLastUpdateTimestamp(),
-    };
-  
-    return data;
+    // eslint-disable-next-line no-restricted-syntax
+    for (const position of portfolio.positions) {
+      // eslint-disable-next-line no-await-in-loop
+      const ticker = await processPosition(position);
+      if (!ticker) {
+        throw new Error('Failed to get ticker name');
+      }
+      data[ticker] = position;
+    }
+  } catch (err) {
+    console.error('Parse Data Failed');
+    throw err;
+  }
+
+  data.options = {
+    last_update_timestamp: getLastUpdateTimestamp(),
+  };
+
+  return data;
 };
 
 const queue = new requestQueue.RequestQueue(5000);
-const getData = async () => await queue.addRequest(parseData);
+const getData = async () => queue.addRequest(parseData);
 
 module.exports = { getData };
