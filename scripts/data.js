@@ -1,5 +1,6 @@
 const tinkoff_v2 = require('./tinkoff_v2.js');
-const utils = require('./utils.js');
+const { getLastUpdateTimestamp } = require('./utils.js');
+const requestQueue = require('./request_queue.js');
 
 const TOKEN = process.env.TINKOFF_INVEST_TOKEN;
 const ACCOUNT_ID = process.env.TINKOFF_INVEST_ACCOUNT_ID;
@@ -57,13 +58,13 @@ const parseData = async () => {
     }
 
     data.options = {
-      last_update_timestamp: utils.getLastUpdateTimestamp(),
+      last_update_timestamp: getLastUpdateTimestamp(),
     };
   
     return data;
 };
 
-
-const getData = async () => utils.addCache(parseData, 5000);
+const queue = new requestQueue.RequestQueue(5000);
+const getData = async () => await queue.addRequest(parseData);
 
 module.exports = { getData };
