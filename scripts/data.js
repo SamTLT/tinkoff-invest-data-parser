@@ -64,6 +64,8 @@ const getData = async () => {
   return utils.addCache(parseData, 5000)
     .catch((err) => {
       console.error(err);
+
+      return err;
     });
 };
 

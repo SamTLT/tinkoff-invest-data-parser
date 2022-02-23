@@ -1,10 +1,5 @@
 const STOCKS_JSON = 'https://service.endpoint/api';
 
-function httpGet(url) {
-  const response = UrlFetchApp.fetch(url);
-  return response.getContentText();
-}
-
 function httpGetJSON(url) {
   const response = UrlFetchApp.fetch(url);
   return JSON.parse(response.getContentText());
