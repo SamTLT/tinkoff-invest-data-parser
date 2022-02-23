@@ -1,4 +1,4 @@
-const STOCKS_JSON = 'https://khovalkin.com/1/stocks';
+const STOCKS_JSON = 'https://service.endpoint/api';
 
 function httpGet(url) {
   const response = UrlFetchApp.fetch(url);
