@@ -1,4 +1,5 @@
 const STOCKS_JSON = 'https://service.endpoint/api';
+const TINKOFF_FUNDS_DATA = 'https://service.endpoint/api';
 
 function httpGetJSON(url) {
   const response = UrlFetchApp.fetch(url);
@@ -64,4 +65,12 @@ function getTickerExpectedYield(ticker) {
   }
 
   return 0;
+}
+
+function getTinkoffFundData(name, column) {
+  if (name || column) {
+    return httpGetJSON(TINKOFF_FUNDS_DATA + '?=name' + name + '&column=' + column);
+  }
+
+  return 'Please pass name and column';
 }

@@ -1,6 +1,8 @@
 require('dotenv').config();
 const http = require('http');
 const getData = require('./scripts/data');
+const getTinkoffFunds = require('./scripts/tinkoff-funds');
+const url = require('url');
 
 const PORT = process.env.PORT || 5000;
 const { USER_TOKEN } = process.env;
@@ -28,6 +30,13 @@ const server = http.createServer(async (req, res) => {
           res.end();
         });
     }
+  } else if (req.url.startsWith('/tinkoff-funds') && req.method === 'GET') {
+    const { name, column } = url.parse(req.url, true).query;
+    const result = await getTinkoffFunds.getTinkoffFunds(name, column);
+
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ message: result }));
+    res.end();
   } else {
     res.writeHead(404, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ message: 'Route not found' }));

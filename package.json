@@ -13,9 +13,11 @@
   "license": "",
   "dependencies": {
     "@grpc/grpc-js": "^1.5.0",
+    "axios": "^0.27.2",
     "dotenv": "^16.0.0",
     "fast-copy": "^2.1.1",
-    "grpc-promise": "^1.4.0"
+    "grpc-promise": "^1.4.0",
+    "jsdom": "^19.0.0"
   },
   "devDependencies": {
     "eslint": "^8.9.0",
